@@ -1,9 +1,11 @@
 import { ArrowDownCircleIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 const CategoryAccordian = () => {
   const [open, setOpen] = useState<boolean>(false);
+  const router = useRouter();
   return (
     <>
       <div className="hidden sm:flex col-span-12 md:col-span-3 md:row-span-3 h-fit overflow-hidden w-full   flex-col items-start justify-start gap-2 p-2 rounded-lg bg-gray-600 capitalize font-semibold">
@@ -22,6 +24,19 @@ const CategoryAccordian = () => {
         </div>
         {!open && (
           <ul className="flex items-start justify-start gap-2 p-1 w-full flex-col">
+            <li
+              className={`w-full border-[1px] border-x-transparent border-t-transparent  rounded-lg p-2 hover:border-x-gray-300 drop-shadow-2xl hover:scale-[1.05] hover:border-t-gray-300 ${
+                !!router.query.category_slug
+                  ? "border-gray-300"
+                  : "bg-white text-gray-800 border-gray-800 "
+              }`}
+            >
+              <Link href={`/blogs`} legacyBehavior>
+                <a className="w-full whitespace-nowrap overflow-hidden flex items-center justify-start gap-1 ">
+                  all categories
+                </a>
+              </Link>
+            </li>
             {[
               {
                 name: "films",
@@ -38,10 +53,14 @@ const CategoryAccordian = () => {
             ].map((category) => {
               return (
                 <li
-                  className="w-full border-[1px] border-x-transparent border-t-transparent border-gray-300 rounded-lg p-2 hover:border-x-gray-300 drop-shadow-2xl hover:scale-[1.05] hover:border-t-gray-300"
+                  className={`w-full border-[1px] border-x-transparent border-t-transparent  rounded-lg p-2 hover:border-x-gray-300 drop-shadow-2xl hover:scale-[1.05] hover:border-t-gray-300 ${
+                    router.query.category_slug === category.name
+                      ? "bg-white text-gray-800 border-gray-800 "
+                      : "border-gray-300"
+                  }`}
                   key={category.name}
                 >
-                  <Link href={category.href} legacyBehavior>
+                  <Link href={"/blogs/" + category.name} legacyBehavior>
                     <a className="w-full whitespace-nowrap overflow-hidden flex items-center justify-start gap-1 ">
                       {category.name}
                     </a>
@@ -56,6 +75,11 @@ const CategoryAccordian = () => {
         <div className="min-w-fit px-3 py-2 whitespace-nowrap overflow-hidden flex items-center justify-center gap-1 border border-white text-white bg-gray-700 hover:scale-110 rounded-s-lg p-1">
           categories
         </div>
+        <Link href={`/blogs`} legacyBehavior>
+          <a className="min-w-fit px-3 py-2 whitespace-nowrap overflow-hidden flex items-center justify-center gap-1 border border-white text-white bg-gray-500 hover:scale-110 rounded-lg p-1">
+            all categories
+          </a>
+        </Link>
         {[
           {
             name: "films",
