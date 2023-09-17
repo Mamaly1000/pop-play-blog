@@ -1,16 +1,16 @@
 .layout-container {
-  @apply relative w-full py-[4%] flex text-white overflow-hidden bg-gray-400  min-h-screen items-start justify-start gap-10 flex-col;
+  @apply relative w-full py-[4%] flex text-white overflow-hidden bg-gray-400  min-h-screen items-center justify-center gap-10 flex-col;
   .header-container {
     @apply z-30 fixed top-0 start-0 w-full items-center justify-center gap-2 min-h-[100px] px-2 md:px-10 drop-shadow-2xl bg-gray-600 backdrop-blur-md;
   }
   .footer-container {
-    @apply z-30 absolute start-0 bottom-0 w-full items-center justify-center gap-2 min-h-[100px] px-2 md:px-10 drop-shadow-2xl bg-gray-600 backdrop-blur-md;
+    @apply z-30 absolute start-0 bottom-0 min-w-full items-center justify-center gap-2 min-h-[100px] px-2 md:px-10 drop-shadow-2xl bg-gray-600 backdrop-blur-md;
   }
   .children-container {
-    @apply bg-transparent p-2 md:p-10 flex items-center justify-center gap-2 flex-col min-h-screen w-full;
+    @apply container bg-transparent p-2 md:p-10 flex items-center justify-center gap-2 flex-col min-h-screen w-full;
   }
 }
 * {
   box-sizing: border-box;
-  @apply m-0 p-0 transition-all font-atkinson font-light;
+  @apply outline-none m-0 p-0 transition-all font-atkinson font-light;
 }

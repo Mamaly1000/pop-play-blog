@@ -17,7 +17,7 @@ module.exports = {
         "group-header-max": "18px",
         "group-header-min": "14px",
         "paragraph-max": "16px",
-        "paragraph-min": "14px",
+        "paragraph-min": "12px",
       },
     },
   },

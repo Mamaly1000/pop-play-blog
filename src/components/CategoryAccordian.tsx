@@ -5,52 +5,81 @@ import { useState } from "react";
 const CategoryAccordian = () => {
   const [open, setOpen] = useState<boolean>(false);
   return (
-    <div className="col-span-12 md:col-span-2 md:row-span-3 h-fit overflow-hidden w-full flex flex-col items-start justify-start gap-2 p-2 rounded-lg bg-gray-600 capitalize font-semibold">
-      <div
-        onClick={() => setOpen((pre) => !pre)}
-        className={`w-full  bg-gray-700 p-1 ${
-          !open ? "rounded-t-lg" : "rounded-lg"
-        }   flex items-center gap-2 justify-center cursor-pointer`}
-      >
-        Blogs Categories{" "}
-        <ArrowDownCircleIcon
-          className={`stroke-white w-[25px] h-[25px] ${
-            !open ? "rotate-180" : ""
-          }`}
-        />
+    <>
+      <div className="hidden sm:flex col-span-12 md:col-span-3 md:row-span-3 h-fit overflow-hidden w-full   flex-col items-start justify-start gap-2 p-2 rounded-lg bg-gray-600 capitalize font-semibold">
+        <div
+          onClick={() => setOpen((pre) => !pre)}
+          className={`w-full  bg-gray-700 p-1 ${
+            !open ? "rounded-t-lg" : "rounded-lg"
+          }   flex items-center gap-2 justify-center cursor-pointer`}
+        >
+          Blogs Categories{" "}
+          <ArrowDownCircleIcon
+            className={`stroke-white w-[25px] h-[25px] ${
+              !open ? "rotate-180" : ""
+            }`}
+          />
+        </div>
+        {!open && (
+          <ul className="flex items-start justify-start gap-2 p-1 w-full flex-col">
+            {[
+              {
+                name: "films",
+                href: "#",
+              },
+              {
+                name: "games",
+                href: "#",
+              },
+              {
+                name: "musics",
+                href: "#",
+              },
+            ].map((category) => {
+              return (
+                <li
+                  className="w-full border-[1px] border-x-transparent border-t-transparent border-gray-300 rounded-lg p-2 hover:border-x-gray-300 drop-shadow-2xl hover:scale-[1.05] hover:border-t-gray-300"
+                  key={category.name}
+                >
+                  <Link href={category.href} legacyBehavior>
+                    <a className="w-full whitespace-nowrap overflow-hidden flex items-center justify-start gap-1 ">
+                      {category.name}
+                    </a>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
-      {!open && (
-        <ul className="flex items-start justify-start gap-2 p-1 w-full flex-col">
-          {[
-            {
-              name: "films",
-              href: "#",
-            },
-            {
-              name: "games",
-              href: "#",
-            },
-            {
-              name: "musics",
-              href: "#",
-            },
-          ].map((category) => {
-            return (
-              <li
-                className="w-full border-[1px] border-x-transparent border-t-transparent border-gray-300 rounded-lg p-2 hover:border-x-gray-300 drop-shadow-2xl hover:scale-[1.05] hover:border-t-gray-300"
-                key={category.name}
-              >
-                <Link href={category.href} legacyBehavior>
-                  <a className="w-full whitespace-nowrap overflow-hidden flex items-center justify-start gap-1 ">
-                    {category.name}
-                  </a>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      )}
-    </div>
+      <div className="flex sm:hidden min-w-full p-2 rounded-lg bg-gray-600  max-w-fit col-span-12 row-span-1 gap-2 my-2 mx-1 overflow-auto capitalize text-gray-400">
+        <div className="min-w-fit px-3 py-2 whitespace-nowrap overflow-hidden flex items-center justify-center gap-1 border border-white text-white bg-gray-700 hover:scale-110 rounded-s-lg p-1">
+          categories
+        </div>
+        {[
+          {
+            name: "films",
+            href: "#",
+          },
+          {
+            name: "games",
+            href: "#",
+          },
+          {
+            name: "musics",
+            href: "#",
+          },
+        ].map((category) => {
+          return (
+            <Link key={category.name} href={category.href} legacyBehavior>
+              <a className="min-w-fit px-3 py-2 whitespace-nowrap overflow-hidden flex items-center justify-center gap-1 border border-white text-white bg-gray-500 hover:scale-110 rounded-lg p-1">
+                {category.name}
+              </a>
+            </Link>
+          );
+        })}
+      </div>
+    </>
   );
 };
 
