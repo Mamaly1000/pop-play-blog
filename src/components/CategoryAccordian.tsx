@@ -1,9 +1,15 @@
+import { categoryType } from "@/types/category-type";
 import { ArrowDownCircleIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
-const CategoryAccordian = () => {
+const CategoryAccordian = ({
+  categoriesData,
+}: {
+  categoriesData: categoryType[];
+}) => {
   const [open, setOpen] = useState<boolean>(false);
   const router = useRouter();
   return (
@@ -37,35 +43,32 @@ const CategoryAccordian = () => {
                 </a>
               </Link>
             </li>
-            {[
-              {
-                name: "films",
-                href: "#",
-              },
-              {
-                name: "games",
-                href: "#",
-              },
-              {
-                name: "musics",
-                href: "#",
-              },
-            ].map((category) => {
+            {categoriesData.map((category) => {
               return (
-                <li
-                  className={`w-full border-[1px] border-x-transparent border-t-transparent  rounded-lg p-2 hover:border-x-gray-300 drop-shadow-2xl hover:scale-[1.05] hover:border-t-gray-300 ${
-                    router.query.category_slug === category.name
-                      ? "bg-white text-gray-800 border-gray-800 "
+                <motion.li
+                  className={`w-full border-[1px] border-x-transparent border-t-transparent  rounded-lg hover:border-x-gray-300 drop-shadow-2xl hover:scale-[1.05] hover:border-t-gray-300 ${
+                    router.query.category_slug === category.title
+                      ? "  text-white border-white "
                       : "border-gray-300"
                   }`}
-                  key={category.name}
+                  key={category._id}
+                  animate={{
+                    border:
+                      router.query.category_slug === category.title
+                        ? `1px solid #ffffff`
+                        : "",
+                    background:
+                      router.query.category_slug === category.title
+                        ? category.color
+                        : "",
+                  }}
                 >
-                  <Link href={"/blogs/" + category.name} legacyBehavior>
-                    <a className="w-full whitespace-nowrap overflow-hidden flex items-center justify-start gap-1 ">
-                      {category.name}
+                  <Link href={"/blogs/" + category.title} legacyBehavior>
+                    <a className="w-full p-2 whitespace-nowrap overflow-hidden flex items-center justify-start gap-1 ">
+                      {category.title}
                     </a>
                   </Link>
-                </li>
+                </motion.li>
               );
             })}
           </ul>
@@ -80,25 +83,28 @@ const CategoryAccordian = () => {
             all categories
           </a>
         </Link>
-        {[
-          {
-            name: "films",
-            href: "#",
-          },
-          {
-            name: "games",
-            href: "#",
-          },
-          {
-            name: "musics",
-            href: "#",
-          },
-        ].map((category) => {
+        {categoriesData.map((category) => {
           return (
-            <Link key={category.name} href={category.href} legacyBehavior>
-              <a className="min-w-fit px-3 py-2 whitespace-nowrap overflow-hidden flex items-center justify-center gap-1 border border-white text-white bg-gray-500 hover:scale-110 rounded-lg p-1">
-                {category.name}
-              </a>
+            <Link
+              href={"/blogs/" + category.title}
+              key={category._id}
+              legacyBehavior
+            >
+              <motion.a
+                animate={{
+                  border:
+                    router.query.category_slug === category.title
+                      ? `1px solid #ffffff`
+                      : "",
+                  background:
+                    router.query.category_slug === category.title
+                      ? category.color
+                      : "",
+                }}
+                className="cursor-pointer min-w-fit px-3 py-2 whitespace-nowrap overflow-hidden flex items-center justify-center gap-1 border border-white text-white bg-gray-500 hover:scale-110 rounded-lg p-1"
+              >
+                {category.title}
+              </motion.a>
             </Link>
           );
         })}

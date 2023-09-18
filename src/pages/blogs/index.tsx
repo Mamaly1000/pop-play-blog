@@ -2,29 +2,40 @@ import BlogsSection from "@/components/BlogsSection";
 import CategoryAccordian from "@/components/CategoryAccordian";
 import CategorySort from "@/components/CategorySort";
 import Layout from "@/layout/Layout";
+import { categoryType } from "@/types/category-type";
+import { mainPostType } from "@/types/postMainType";
 import axios from "axios";
 
-export default function Home({ res }: { res: any }) {
-  console.log(res);
-
+export default function Home({
+  postsData,
+  categoriesData,
+}: {
+  postsData: mainPostType;
+  categoriesData: { data: categoryType[] };
+}) {
   return (
     <Layout>
       <div className="p-2 py-24 md:py-2 w-full grid grid-cols-12 gap-5">
         <CategorySort />
-        <CategoryAccordian />
-        <BlogsSection />
+        <CategoryAccordian categoriesData={categoriesData.data} />
+        <BlogsSection blogs={postsData.data.docs} />
       </div>
     </Layout>
   );
 }
 
 export async function getServerSideProps() {
-  const { data } = await axios.get(
-    "https://datausa.io/api/data?drilldowns=Nation&measures=Population"
+  const { data: blogsData } = await axios.get(
+    "http://localhost:5000/api/posts?page=1&limit=10"
   );
+  const { data: categoriesData } = await axios.get(
+    "http://localhost:5000/api/post-category"
+  );
+
   return {
     props: {
-      res: data,
+      postsData: blogsData,
+      categoriesData,
     },
   };
 }

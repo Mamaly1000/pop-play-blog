@@ -21,7 +21,8 @@
       "@/pages/*": ["src/pages/*"],
       "@/hooks/*": ["src/hooks/*"],
       "@/common/*": ["src/common/*"],
-      "@/utils/*": ["src/utils/*"]
+      "@/utils/*": ["src/utils/*"],
+      "@/types/*": ["src/types/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
