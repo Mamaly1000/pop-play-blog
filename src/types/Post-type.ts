@@ -18,7 +18,7 @@ export type postType = {
   isBookmarked: false;
   isLiked: false;
   tags: unknown[];
-  related: unknown[];
+  related: postType[];
   comments: unknown[];
   hashId: string;
   author: {

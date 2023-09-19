@@ -1,5 +1,6 @@
 import { AppProps } from "next/app";
 import "../../styles/tailwind.scss";
+import "react-toastify/dist/ReactToastify.css";
 import { AnimatePresence } from "framer-motion";
 
 function MyApp({ Component, pageProps }: AppProps) {

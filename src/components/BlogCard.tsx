@@ -9,6 +9,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { postType } from "@/types/Post-type";
 import Link from "next/link";
+import InterActions from "./interactionButtons/InterActions";
 const BlogCard = ({ blog, index }: { blog: postType; index: number }) => {
   return (
     <motion.div
@@ -17,18 +18,22 @@ const BlogCard = ({ blog, index }: { blog: postType; index: number }) => {
       transition={{ duration: 1, delay: index / 10 + 0.1, type: "tween" }}
       className="w-full  sm:w-[320px] h-fit rounded-lg drop-shadow-2xl bg-gray-600 flex items-start flex-wrap justify-between gap-2 p-2 cursor-pointer hover:-translate-y-2"
     >
-      <div className="relative w-full aspect-video rounded-t-lg overflow-hidden">
-        <Image
-          unoptimized
-          loader={() => blog.coverImage}
-          fill
-          src={blog.coverImage}
-          alt="blog image"
-        />
-      </div>
-      <h3 className="font-bold text-gray-200 line-clamp-1 text-group-header-min">
-        {blog.title}
-      </h3>
+      <Link href={`/posts/${blog.hashId}/${blog.slug}`} legacyBehavior>
+        <a className="relative w-full aspect-video rounded-t-lg overflow-hidden">
+          <Image
+            unoptimized
+            loader={() => blog.coverImage}
+            fill
+            src={blog.coverImage}
+            alt="blog image"
+          />
+        </a>
+      </Link>
+      <Link href={`/posts/${blog.hashId}/${blog.slug}`} legacyBehavior>
+        <a className="font-semibold hover:font-bold text-gray-200 line-clamp-1 text-group-header-min visited:text-red-200 active:text-gray-400 hover:text-white hover:line-clamp-2">
+          {blog.title}
+        </a>
+      </Link>
       <div className="w-full flex items-center justify-between flex-wrap">
         <div className="w-fit flex items-center justify-start gap-2 text-paragraph-min">
           <Image
@@ -57,23 +62,7 @@ const BlogCard = ({ blog, index }: { blog: postType; index: number }) => {
           <p>{blog.readingTime}min to read</p>
           <ClockIcon className="w-[20px] h-[20px] stroke-gray-300" />
         </div>
-        <div className=" w-fit flex flex-wrap items-center justify-end gap-2">
-          <button className="w-fit flex gap-1 p-1 rounded-lg cursor-pointer hover:scale-105 active:scale-95 disabled:opacity-60 bg-green-600 items-center justify-center">
-            <HandThumbUpIcon className="stroke-white w-[15px] h-[15px]" />
-            {blog.likesCount ? blog.likesCount : 0}
-          </button>{" "}
-          <button className="w-fit flex gap-1 p-1 rounded-lg cursor-pointer hover:scale-105 active:scale-95 disabled:opacity-60 bg-red-600 items-center justify-center">
-            <ChatBubbleBottomCenterTextIcon className="stroke-white w-[15px] h-[15px]" />
-            {blog.commentsCount ? blog.commentsCount : 0}
-          </button>{" "}
-          <button className="w-fit flex gap-1 p-1 rounded-lg cursor-pointer hover:scale-105 active:scale-95 disabled:opacity-60 bg-blue-600 items-center justify-center">
-            <BookmarkIcon
-              className={`stroke-white ${
-                blog.isBookmarked ? "fill-white" : "fill-transparent"
-              } w-[15px] h-[15px]`}
-            />
-          </button>
-        </div>
+        <InterActions btnGap={2} blog={blog} iconSize="20" />
       </div>
     </motion.div>
   );
