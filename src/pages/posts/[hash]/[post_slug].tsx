@@ -13,8 +13,17 @@ import { DocumentDuplicateIcon } from "@heroicons/react/24/outline";
 import { toast } from "react-toastify";
 import BlogCard from "@/components/BlogCard";
 import Image from "next/image";
+import CommentSection from "@/components/comment-section/CommentSection";
+import { commentType } from "@/types/comment-type";
+import { userType } from "../../../types/user-type";
 
-const SinglePostpage = ({ postData }: { postData: postType }) => {
+const SinglePostpage = ({
+  postData,
+  // userData,
+}: {
+  // userData: userType;
+  postData: postType;
+}) => {
   const [copy, setCopy] = useState<boolean>(false);
   const location = useRouter();
   const url = `http://localhost:3000/${location.asPath}`;
@@ -84,6 +93,10 @@ const SinglePostpage = ({ postData }: { postData: postType }) => {
             </div>
           </div>
         )}
+        <CommentSection
+          // userData={userData}
+          comments={postData.comments as commentType[]}
+        />
       </div>
     </Layout>
   );
@@ -96,10 +109,14 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const { data } = await axios.get(
     `http://localhost:5000/api/posts/${query.post_slug}`
   );
+  // const { data: userData } = await axios.get(
+  //   "http://localhost:5000/api/user/load"
+  // );
 
   return {
     props: {
       postData: data.data,
+      // userData,
     },
   };
 }
