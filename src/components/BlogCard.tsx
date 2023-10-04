@@ -47,7 +47,7 @@ const BlogCard = ({ blog, index }: { blog: postType; index: number }) => {
             unoptimized
             alt="author image"
           />
-          {blog.author.name}
+          {blog.author?.name}
         </div>
         {blog.category && (
           <Link legacyBehavior href={"/blogs/" + blog.category.title}>

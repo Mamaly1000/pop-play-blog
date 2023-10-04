@@ -15,12 +15,11 @@ import BlogCard from "@/components/BlogCard";
 import Image from "next/image";
 import CommentSection from "@/components/comment-section/CommentSection";
 import { commentType } from "@/types/comment-type";
-import { userType } from "../../../types/user-type";
 
 const SinglePostpage = ({
   postData,
-  // userData,
-}: {
+}: // userData,
+{
   // userData: userType;
   postData: postType;
 }) => {
@@ -39,9 +38,9 @@ const SinglePostpage = ({
       <div className="py-[25%] sm:py-[20%] md:py-10 flex justify-start flex-wrap items-start gap-5 w-full min-h-[500px]">
         <PostHeader
           header={{
-            author: postData.author.name,
+            author: postData.author?.name,
             created_at: new Date(postData.createdAt),
-            profession: postData.author.biography,
+            profession: postData.author?.expertize,
             reading_time: postData.readingTime,
             isBookmarked: postData.isBookmarked,
             blogTitle: postData.title,
@@ -105,18 +104,20 @@ const SinglePostpage = ({
 export default SinglePostpage;
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  const { query } = ctx;
+  const { query, req } = ctx;
   const { data } = await axios.get(
-    `http://localhost:5000/api/posts/${query.post_slug}`
+    `http://localhost:5000/api/posts/${query.post_slug}`,
+    {
+      withCredentials: true,
+      headers: {
+        Cookie: req.headers.cookie || "",
+      },
+    }
   );
-  // const { data: userData } = await axios.get(
-  //   "http://localhost:5000/api/user/load"
-  // );
 
   return {
     props: {
       postData: data.data,
-      // userData,
     },
   };
 }

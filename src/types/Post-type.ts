@@ -25,6 +25,7 @@ export type postType = {
     biography: string;
     _id: string;
     name: string;
+    expertize: string;
   };
   createdAt: string;
   updatedAt: string;

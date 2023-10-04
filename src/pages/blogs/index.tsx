@@ -5,6 +5,7 @@ import Layout from "@/layout/Layout";
 import { categoryType } from "@/types/category-type";
 import { mainPostType } from "@/types/postMainType";
 import axios from "axios";
+import { GetServerSidePropsContext } from "next";
 
 export default function Home({
   postsData,
@@ -24,9 +25,15 @@ export default function Home({
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ req }: GetServerSidePropsContext) {
   const { data: blogsData } = await axios.get(
-    "http://localhost:5000/api/posts?page=1&limit=10"
+    "http://localhost:5000/api/posts?page=1&limit=10",
+    {
+      withCredentials: true,
+      headers: {
+        Cookie: req.headers.cookie || "",
+      },
+    }
   );
   const { data: categoriesData } = await axios.get(
     "http://localhost:5000/api/post-category"

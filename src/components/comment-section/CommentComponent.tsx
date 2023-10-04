@@ -46,7 +46,7 @@ const CommentComponent = ({
           className="rounded-full ring-gray-400 ring-[1px]"
         />
         <div className="w-fit text-paragraph-min text-start flex items-start justify-start gap-3 flex-col capitalize text-gray-300">
-          <span>{comment.writer.name}</span>
+          <span>{comment.writer?.name}</span>
           <span>
             {moment(comment.createdAt).format("dddd YYYY/MM/DD HH:MM")}
           </span>

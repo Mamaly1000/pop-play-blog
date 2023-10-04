@@ -2,27 +2,23 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Input_components from "./Input-Component";
 import Link from "next/link";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { useAuth } from "src/context/AuthContext";
+import { useAuth, useAuthActions } from "src/context/AuthContext";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 const initialValues = {
   email: "",
   password: "",
 };
 
 const Login_Form = () => {
+  const router = useRouter();
   const auth = useAuth();
-  console.log(auth?.user);
+  const dispatch = useAuthActions();
 
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (val) => {
-      axios
-        .post("http://localhost:5000/api/user/signin", val, {
-          withCredentials: true,
-        })
-        .then((res) => toast.success(res.data.message))
-        .catch((err) => toast.error(err?.response?.data?.message));
+      dispatch!.dispatchUser({ type: "LOGIN", payload: val }) as any;
     },
     validationSchema: Yup.object({
       email: Yup.string()
@@ -33,6 +29,11 @@ const Login_Form = () => {
         .min(8, "password must be more than 8 character"),
     }),
   });
+  useEffect(() => {
+    if (auth?.user.istrusted) {
+      router.push("/profile");
+    }
+  }, [auth?.user]);
   return (
     <form onSubmit={formik.handleSubmit}>
       <Input_components

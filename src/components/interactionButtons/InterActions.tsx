@@ -21,10 +21,14 @@ const InterActions = ({
       className={`max-w-fit flex flex-wrap items-center justify-end ${btnGaps}`}
     >
       <button className="w-fit flex gap-1 p-1 rounded-lg cursor-pointer hover:scale-105 active:scale-95 disabled:opacity-60 bg-green-600 items-center justify-center">
-        <HandThumbUpIcon className={` stroke-white` + iconsize} />
+        <HandThumbUpIcon
+          className={
+            `${blog.isLiked ? "fill-white bg-white" : " stroke-white"}` + iconsize
+          }
+        />
         {blog.likesCount ? blog.likesCount : 0}
       </button>
-      <button className="w-fit flex gap-1 p-1 rounded-lg cursor-pointer hover:scale-105 active:scale-95 disabled:opacity-60 bg-red-600 items-center justify-center">
+      <button className="w-fit flex gap-1 p-1 rounded-lg cursor-pointer hover:scale-105 active:scale-95 disabled:opacity-60 bg-yellow-600 items-center justify-center">
         <ChatBubbleBottomCenterTextIcon
           className={` stroke-white` + iconsize}
         />
