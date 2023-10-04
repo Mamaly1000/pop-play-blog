@@ -1,7 +1,6 @@
 import Layout from "@/layout/Layout";
 import React from "react";
 import { GetServerSidePropsContext } from "next";
-import axios from "axios";
 import { postType } from "@/types/Post-type";
 import PostHeader from "@/components/PostPageComponents/PostHeader";
 import InterActions from "@/components/interactionButtons/InterActions";
@@ -15,6 +14,7 @@ import BlogCard from "@/components/BlogCard";
 import Image from "next/image";
 import CommentSection from "@/components/comment-section/CommentSection";
 import { commentType } from "@/types/comment-type";
+import http from "@/services/httpService";
 
 const SinglePostpage = ({
   postData,
@@ -105,15 +105,11 @@ export default SinglePostpage;
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const { query, req } = ctx;
-  const { data } = await axios.get(
-    `http://localhost:5000/api/posts/${query.post_slug}`,
-    {
-      withCredentials: true,
-      headers: {
-        Cookie: req.headers.cookie || "",
-      },
-    }
-  );
+  const { data } = await http.get(`/posts/${query.post_slug}`, {
+    headers: {
+      Cookie: req.headers.cookie || "",
+    },
+  });
 
   return {
     props: {

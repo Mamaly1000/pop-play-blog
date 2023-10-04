@@ -22,9 +22,15 @@
       "@/hooks/*": ["src/hooks/*"],
       "@/common/*": ["src/common/*"],
       "@/utils/*": ["src/utils/*"],
-      "@/types/*": ["src/types/*"]
+      "@/types/*": ["src/types/*"],
+      "@/services/*": ["src/services/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/components/PostPageComponents"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/components/PostPageComponents"
+  ],
   "exclude": ["node_modules"]
 }

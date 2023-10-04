@@ -2,9 +2,9 @@ import BlogsSection from "@/components/BlogsSection";
 import CategoryAccordian from "@/components/CategoryAccordian";
 import CategorySort from "@/components/CategorySort";
 import Layout from "@/layout/Layout";
+import http from "@/services/httpService";
 import { categoryType } from "@/types/category-type";
-import { mainPostType } from "@/types/postMainType";
-import axios from "axios";
+import { mainPostType } from "@/types/postMainType"; 
 import { GetServerSidePropsContext } from "next";
 
 export default function Home({
@@ -26,18 +26,12 @@ export default function Home({
 }
 
 export async function getServerSideProps({ req }: GetServerSidePropsContext) {
-  const { data: blogsData } = await axios.get(
-    "http://localhost:5000/api/posts?page=1&limit=10",
-    {
-      withCredentials: true,
-      headers: {
-        Cookie: req.headers.cookie || "",
-      },
-    }
-  );
-  const { data: categoriesData } = await axios.get(
-    "http://localhost:5000/api/post-category"
-  );
+  const { data: blogsData } = await http.get("/posts?page=1&limit=10", {
+    headers: {
+      Cookie: req.headers.cookie || "",
+    },
+  });
+  const { data: categoriesData } = await http.get("/post-category");
 
   return {
     props: {

@@ -1,5 +1,5 @@
 import { postType } from "@/types/Post-type";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import React, {
   Dispatch,
   createContext,
@@ -9,6 +9,7 @@ import React, {
 import { toast } from "react-toastify";
 import { useReducerAsync } from "use-reducer-async";
 import Router from "next/router";
+import http from "@/services/httpService";
 interface Iuser {
   user: {
     name: string;
@@ -107,13 +108,13 @@ const asyncReducer: any = {
     }): ((action: actionType) => void) =>
     (action): void => {
       dispatch({ type: "LOGIN_PENDING" });
-      axios
-        .post("http://localhost:5000/api/user/signin", action.payload, {
+      http
+        .post("/user/signin", action.payload, {
           withCredentials: true,
         })
         .then(({ data }: { data: Iuser & { message: string } }) => {
           dispatch({ type: "LOGIN_SUCCESS", payload: data });
-          toast.success(data.message+"sasdd");
+          toast.success(data.message + "sasdd");
           Router.push("/profile");
         })
         .catch(
@@ -138,8 +139,8 @@ const asyncReducer: any = {
     }): ((action: actionType) => void) =>
     (action: actionType) => {
       dispatch({ type: "LOGIN_PENDING" });
-      axios
-        .post("http://localhost:5000/api/user/signup", action.payload)
+      http
+        .post("/user/signup", action.payload)
         .then((res) => {
           toast.success("you signed up successfuly !");
           dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
@@ -154,8 +155,8 @@ const asyncReducer: any = {
     ({ dispatch }: { dispatch: Dispatch<actionType | { type: string }> }) =>
     (_action: actionType) => {
       dispatch({ type: "LOGIN_PENDING" });
-      axios
-        .get("http://localhost:5000/api/user/logout", { withCredentials: true })
+      http
+        .get("/user/logout", { withCredentials: true })
         .then((res: AxiosResponse<{ message: string }>) => {
           toast.warn(res?.data.message);
           dispatch({ type: "LOGOUT_SUCCESS" });
@@ -172,8 +173,8 @@ const asyncReducer: any = {
     (): void => {
       dispatch({ type: "LOGIN_PENDING" });
 
-      axios
-        .get("http://localhost:5000/api/user/load", { withCredentials: true })
+      http
+        .get("/user/load", { withCredentials: true })
         .then((res: AxiosResponse) => {
           dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
           toast.success(`wellcome to your account ${res.data.name}`);
