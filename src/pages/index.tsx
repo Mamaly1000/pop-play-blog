@@ -20,7 +20,20 @@ export default function Home({
       <div className="p-2 py-24 md:py-2 w-full grid grid-cols-12 gap-5">
         <CategorySort />
         <CategoryAccordian categoriesData={categoriesData.data} />
-        <BlogsSection blogs={postsData!.data!.docs} />
+        <BlogsSection
+          blogs={postsData!.data!.docs}
+          paginationData={{
+            totalDocs: postsData.data.totalDocs,
+            limit: postsData.data.limit,
+            totalPages: postsData.data.totalPages,
+            page: postsData.data.page,
+            pagingCounter: postsData.data.pagingCounter,
+            hasPrevPage: postsData.data.hasPrevPage,
+            hasNextPage: postsData.data.hasNextPage,
+            prevPage: postsData.data.prevPage,
+            nextPage: postsData.data.nextPage,
+          }}
+        />
       </div>
     </Layout>
   );

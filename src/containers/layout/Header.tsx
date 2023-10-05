@@ -3,6 +3,8 @@ import Link from "next/link";
 import { useAuth, useAuthActions } from "src/context/AuthContext";
 import { SlLogout } from "react-icons/sl";
 import { AnimatePresence, motion } from "framer-motion";
+import { GoHome } from "react-icons/go";
+import { MdLibraryBooks } from "react-icons/md";
 const Header = () => {
   const userAuth = useAuth();
   const dispatch = useAuthActions();
@@ -27,21 +29,20 @@ const Header = () => {
               exit={{ scale: 0 }}
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.1 }}
+              className="profile-btn "
             >
-              <AnimatePresence>
-                <div className="max-w-fit max-h-fit">
-                  <Image
-                    src={userAuth!.user!.user!.profilePicURL}
-                    loader={() => userAuth!.user!.user!.profilePicURL}
-                    alt="profile pic"
-                    width={30}
-                    height={30}
-                    className="rounded-full ring-1 ring-gray-300 object-contain"
-                  />
-                </div>
-              </AnimatePresence>
-              {userAuth?.user.istrusted &&
-                userAuth!.user!.user!.name.slice(0, 10)}
+              <Image
+                src={userAuth!.user!.user!.profilePicURL}
+                loader={() => userAuth!.user!.user!.profilePicURL}
+                alt="profile pic"
+                width={20}
+                height={20}
+                className="rounded-full   ring-1 ring-gray-300 object-contain"
+              />
+              <span className="hidden sm:block">
+                {userAuth?.user.istrusted &&
+                  userAuth!.user!.user!.name.slice(0, 10)+" ..."}
+              </span>
             </motion.a>
           </Link>
         )}
@@ -56,17 +57,23 @@ const Header = () => {
                 dispatch?.dispatchUser({ type: "LOG_OUT" });
               }}
             >
-              <SlLogout className="  text-red-400" />
+              <SlLogout className="w-[20px] h-[20px]  text-red-400" />
             </motion.button>
           )}
         </AnimatePresence>
       </div>
       <div className="min-h-full max-w-[40%] flex items-center justify-start gap-3 ">
         <Link href="/blogs" legacyBehavior>
-          <a>blogs</a>
+          <a>
+            <span className="absolute hidden sm:visible">blogs</span>
+            <MdLibraryBooks className="stroke-white w-[20px] h-[20px]" />
+          </a>
         </Link>
         <Link href="/" legacyBehavior>
-          <a>home</a>
+          <a className="flex items-center justify-center relative">
+            <span className="absolute hidden sm:visible">home</span>
+            <GoHome className="stroke-white w-[20px] h-[20px]" />
+          </a>
         </Link>
       </div>
     </div>

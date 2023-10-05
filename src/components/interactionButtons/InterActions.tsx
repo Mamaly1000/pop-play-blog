@@ -8,6 +8,8 @@ import {
 } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { AxiosResponse } from "axios";
+import { routerPush } from "@/utils/routerPush";
+import { useRouter } from "next/router";
 
 const InterActions = ({
   blog,
@@ -18,6 +20,7 @@ const InterActions = ({
   iconSize: string;
   btnGap: number;
 }) => {
+  const router = useRouter();
   const [actions, setActions] = useState<{
     bookmark: boolean;
     liked: boolean;
@@ -45,6 +48,7 @@ const InterActions = ({
             ? actions.likeCount - 1
             : 0,
         });
+        routerPush(router);
       })
       .catch((err) => console.log(err));
   };
@@ -54,6 +58,7 @@ const InterActions = ({
       .then((res: AxiosResponse) => {
         toast.success(res.data.message);
         setActions({ ...actions, bookmark: res.data.bookmarked });
+        routerPush(router);
       })
       .catch(() => toast.error("falied to save the action"));
   };

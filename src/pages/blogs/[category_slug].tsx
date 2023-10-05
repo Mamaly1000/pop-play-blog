@@ -14,12 +14,26 @@ const SingleCategoryPage = ({
   postsData: mainPostType;
   categoriesData: { data: categoryType[] };
 }) => {
+
   return (
     <Layout>
       <div className="p-2 py-24 md:py-2 w-full grid grid-cols-12 gap-5">
         <CategorySort />
         <CategoryAccordian categoriesData={categoriesData.data} />
-        <BlogsSection blogs={postsData.data.docs} />
+        <BlogsSection
+          blogs={postsData.data.docs}
+          paginationData={{
+            totalDocs: postsData.data.totalDocs,
+            limit: postsData.data.limit,
+            totalPages: postsData.data.totalPages,
+            page: postsData.data.page,
+            pagingCounter: postsData.data.pagingCounter,
+            hasPrevPage: postsData.data.hasPrevPage,
+            hasNextPage: postsData.data.hasNextPage,
+            prevPage: postsData.data.prevPage,
+            nextPage: postsData.data.nextPage,
+          }}
+        />
       </div>
     </Layout>
   );
@@ -30,13 +44,14 @@ export default SingleCategoryPage;
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const { query, req } = ctx;
   const { data: blogsData } = await http.get(
-    `/posts?page=1&limit=10&categorySlug=${query!.category_slug}`,
+    `/posts?${queryString.stringify(query)}`,
     {
       headers: {
         Cookie: req.headers.cookie || "",
       },
     }
   );
+
   const { data: categoriesData } = await http.get("/post-category");
 
   return {

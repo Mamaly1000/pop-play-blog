@@ -31,10 +31,10 @@ const CategoryAccordian = ({
         {!open && (
           <ul className="flex items-start justify-start gap-2 p-1 w-full flex-col">
             <li
-              className={`w-full border-[1px] border-x-transparent border-t-transparent  rounded-lg p-2 hover:border-x-gray-300 drop-shadow-2xl hover:scale-[1.05] hover:border-t-gray-300 ${
-                !!router.query.category_slug
-                  ? "border-gray-300"
-                  : "bg-white text-gray-800 border-gray-800 "
+              className={`w-full border-[1px] text-gray-300 rounded-lg p-2 hover:border-x-gray-300 drop-shadow-2xl hover:scale-[1.05] hover:border-t-gray-300 ${
+                router.query.category_slug
+                  ? "border-gray-500 border-x-transparent border-t-transparent"
+                  : "bg-gray-800 "
               }`}
             >
               <Link href={`/blogs`} legacyBehavior>
@@ -47,25 +47,29 @@ const CategoryAccordian = ({
               return (
                 <motion.li
                   className={`w-full border-[1px] border-x-transparent border-t-transparent  rounded-lg hover:border-x-gray-300 drop-shadow-2xl hover:scale-[1.05] hover:border-t-gray-300 ${
-                    router.query.category_slug === category.title
+                    router.query.category_slug === category.englishTitle
                       ? "  text-white border-white "
                       : "border-gray-300"
                   }`}
                   key={category._id}
                   animate={{
                     border:
-                      router.query.category_slug === category.title
+                      router.query.category_slug === category.englishTitle
                         ? `1px solid #ffffff`
                         : "",
                     background:
-                      router.query.category_slug === category.title
+                      router.query.category_slug === category.englishTitle
                         ? category.color
                         : "",
                   }}
                 >
-                  <Link href={"/blogs/" + category.title} legacyBehavior>
+                  <Link
+                    href={`/blogs/${category.englishTitle}`}
+                    key={category._id}
+                    legacyBehavior
+                  >
                     <a className="w-full p-2 whitespace-nowrap overflow-hidden flex items-center justify-start gap-1 ">
-                      {category.title}
+                      {category.englishTitle}
                     </a>
                   </Link>
                 </motion.li>
@@ -75,35 +79,39 @@ const CategoryAccordian = ({
         )}
       </div>
       <div className="flex sm:hidden min-w-full p-2 rounded-lg bg-gray-600  max-w-fit col-span-12 row-span-1 gap-2 my-2 mx-1 overflow-auto capitalize text-gray-400">
-        <div className="min-w-fit px-3 py-2 whitespace-nowrap overflow-hidden flex items-center justify-center gap-1 border border-white text-white bg-gray-700 hover:scale-110 rounded-s-lg p-1">
+        <div className="cursor-default min-w-fit px-3 py-2 whitespace-nowrap overflow-hidden flex items-center justify-center gap-1 border border-white text-white bg-gray-700 hover:scale-110 rounded-s-lg p-1">
           categories
         </div>
         <Link href={`/blogs`} legacyBehavior>
-          <a className="min-w-fit px-3 py-2 whitespace-nowrap overflow-hidden flex items-center justify-center gap-1 border border-white text-white bg-gray-500 hover:scale-110 rounded-lg p-1">
+          <a
+            className={`min-w-fit px-3 py-2 whitespace-nowrap overflow-hidden flex items-center justify-center gap-1 border border-white text-white ${
+              !router.query.category_slug ? "bg-gray-800" : "bg-transparent"
+            } hover:scale-110 rounded-lg p-1`}
+          >
             all categories
           </a>
         </Link>
         {categoriesData.map((category) => {
           return (
             <Link
-              href={"/blogs/" + category.title}
+              href={`/blogs/${category.englishTitle}`}
               key={category._id}
               legacyBehavior
             >
               <motion.a
                 animate={{
                   border:
-                    router.query.category_slug === category.title
+                    router.query.category_slug === category.englishTitle
                       ? `1px solid #ffffff`
                       : "",
                   background:
-                    router.query.category_slug === category.title
+                    router.query.category_slug === category.englishTitle
                       ? category.color
                       : "",
                 }}
                 className="cursor-pointer min-w-fit px-3 py-2 whitespace-nowrap overflow-hidden flex items-center justify-center gap-1 border border-white text-white bg-gray-500 hover:scale-110 rounded-lg p-1"
               >
-                {category.title}
+                {category.englishTitle}
               </motion.a>
             </Link>
           );

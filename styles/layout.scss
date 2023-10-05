@@ -9,7 +9,13 @@
     & > div > button {
       @apply text-[.8rem] leading-[1rem] md:text-[1rem] flex items-center justify-center gap-3 whitespace-nowrap w-fit h-fit p-3 rounded-lg font-bold capitalize bg-gray-800 text-white hover:scale-105 active:scale-90;
       & > img {
-        @apply w-[25px] h-[25px];
+        @apply w-[20px] h-[20px];
+      }
+    }
+    .profile-btn {
+      @apply w-fit h-fit rounded-full p-1 sm:p-3 sm:rounded-lg;
+      & > img {
+        @apply min-w-[35px] min-h-[35px] ring-0 sm:min-w-[30px] sm:min-h-[30px];
       }
     }
   }
@@ -22,8 +28,27 @@
       @apply mx-auto mb-10 bg-gray-600 min-w-[90%] md:min-w-[400px] max-w-[400px] min-h-fit p-2 rounded-lg drop-shadow-2xl flex items-start justify-center gap-1 flex-col;
     }
   }
+  .pagination-component {
+    .MuiPagination-ul {
+      @apply text-gray-300 flex items-center justify-center gap-2;
+
+      & > li > button {
+        color: #fff !important;
+        @apply bg-gray-400 text-gray-300;
+      }
+      & > li > .Mui-selected {
+        @apply shadow-md bg-violet-700;
+      }
+    }
+    .MuiPagination-text {
+      @apply text-gray-300;
+    }
+  }
 }
 * {
   box-sizing: border-box;
   @apply outline-none m-0 p-0 transition-all font-atkinson font-light;
+}
+html {
+  scroll-behavior: smooth !important;
 }

@@ -1,3 +1,4 @@
+import { routerPush } from "@/utils/routerPush";
 import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -10,7 +11,7 @@ const CategorySort = () => {
   const sortHandler = (id: string) => {
     setSort(id);
     router.query.sort = id;
-    router.push(router, undefined, { scroll: false });
+    routerPush(router);
   };
 
   return (
@@ -20,14 +21,14 @@ const CategorySort = () => {
         <AdjustmentsHorizontalIcon className=" w-[25px] h-[25px] stroke-white" />
       </div>
       <div className="w-full flex flex-row items-center justify-start gap-2 ">
-        {["newest", "popular", "most"].map((s) => {
+        {["newest", "popular", "most viewed"].map((s) => {
           return (
             <button
               key={s}
               onClick={() => sortHandler(s)}
               className={`w-fit p-2 border-b-[1px]  hover:px-10 rounded-lg  whitespace-nowrap ${
                 sort === s
-                  ? "px-10 bg-gray-200 text-gray-800 border-gray-800"
+                  ? "px-10 bg-gray-200 text-gray-800 border-gray-800 shadow-inner shadow-gray-900 font-semibold"
                   : "border-gray-200"
               }`}
             >
