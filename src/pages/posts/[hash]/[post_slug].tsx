@@ -90,7 +90,7 @@ const SinglePostpage = ({ postData }: { postData: postType }) => {
           </div>
         )}
         <CommentSection
-          // userData={userData}
+          postID={postData._id}
           comments={postData.comments as commentType[]}
         />
       </div>

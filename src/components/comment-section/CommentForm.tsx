@@ -1,38 +1,47 @@
-import React, { Dispatch, SetStateAction } from "react";
+import http from "@/services/httpService";
+import { routerPush } from "@/utils/routerPush";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
 const CommentForm = ({
-  myComment,
-  setMyComment,
-  onsubmit,
   title,
+  postID,
+  responseTo,
+  setOpen,
 }: {
+  setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   title: string;
-  myComment: {
-    name?: string | undefined;
-    emailId?: string | undefined;
-    message?: string | undefined;
-  };
-  onsubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  setMyComment: Dispatch<
-    SetStateAction<{
-      name?: string | undefined;
-      emailId?: string | undefined;
-      message?: string | undefined;
-    }>
-  >;
+  postID: string;
+  responseTo: string | null;
 }) => {
+  const router = useRouter();
+  const [myComment, setMyComment] = useState("");
   return (
     <form
-      onSubmit={onsubmit}
+      onSubmit={(e) => {
+        e.preventDefault();
+        http
+          .post(`/post-comment/save-comment`, {
+            content: myComment,
+            postId: postID,
+            responseTo,
+          })
+          .then((res) => {
+            toast.success(res.data.message);
+            setMyComment("");
+            routerPush(router);
+            setOpen && setOpen(false);
+          })
+          .catch((err) => toast.error(err.response.data.message));
+      }}
       className="w-full flex flex-wrap items-start justify-start gap-3 rounded-lg bg-gray-800 p-5 [&>textarea]:min-w-full  [&>input]:px-3 [&>input]:py-2 [&>input]:rounded-lg [&>input]:capitalize [&>input:hover]:scale-110 [&>input]:cursor-pointer [&>input]:font-semibold drop-shadow-2xl"
     >
       {title.length > 0 && (
         <span className="capitalize animate-pulse">{title}</span>
       )}
       <textarea
-        value={myComment.message}
-        onChange={(e) =>
-          setMyComment({ ...myComment, message: e.target.value })
-        }
+        value={myComment}
+        onChange={(e) => setMyComment(e.target.value)}
         placeholder="write your comment here ...."
         className="bg-gray-600 p-3 rounded-lg capitalize text-paragraph-max font-semibold max-h-[300px] min-h-[100px]"
       />
@@ -40,7 +49,7 @@ const CommentForm = ({
       <input
         type="reset"
         value="reset"
-        onClick={() => setMyComment({ emailId: "", message: "", name: "" })}
+        onClick={() => setMyComment("")}
         className="bg-red-700"
       />
     </form>

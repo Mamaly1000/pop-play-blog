@@ -9,9 +9,11 @@ import { LuReply } from "react-icons/lu";
 const CommentComponent = ({
   comment,
   index,
+  postID,
 }: {
   comment: commentType;
   index: number;
+  postID: string;
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [myComment, setMyComment] = useState<{
@@ -80,11 +82,9 @@ const CommentComponent = ({
         <AnimatePresence>
           {open && (
             <CommentForm
-              myComment={myComment}
-              onsubmit={(e) => {
-                e.preventDefault();
-              }}
-              setMyComment={setMyComment}
+              setOpen={setOpen}
+              postID={postID}
+              responseTo={comment._id}
               title=""
             />
           )}

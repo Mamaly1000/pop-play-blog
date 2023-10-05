@@ -4,9 +4,11 @@ import CommentComponent from "./CommentComponent";
 const ReplyComment = ({
   parentCommentId,
   Comments,
+  postID,
 }: {
   Comments: commentType[];
   parentCommentId: string;
+  postID: string;
 }) => {
   return Comments.map((comment, index) => {
     return (
@@ -15,8 +17,12 @@ const ReplyComment = ({
           key={comment._id}
           className="ms-2  w-auto flex flex-col items-start justify-start gap-2"
         >
-          <CommentComponent comment={comment} index={index} />
-          <ReplyComment Comments={Comments} parentCommentId={comment._id} />
+          <CommentComponent postID={postID} comment={comment} index={index} />
+          <ReplyComment
+            postID={postID}
+            Comments={Comments}
+            parentCommentId={comment._id}
+          />
         </div>
       )
     );
