@@ -16,13 +16,9 @@ import CommentSection from "@/components/comment-section/CommentSection";
 import { commentType } from "@/types/comment-type";
 import http from "@/services/httpService";
 
-const SinglePostpage = ({
-  postData,
-}: // userData,
-{
-  // userData: userType;
-  postData: postType;
-}) => {
+const SinglePostpage = ({ postData }: { postData: postType }) => {
+  console.log(postData);
+
   const [copy, setCopy] = useState<boolean>(false);
   const location = useRouter();
   const url = `http://localhost:3000/${location.asPath}`;
@@ -40,10 +36,11 @@ const SinglePostpage = ({
           header={{
             author: postData.author?.name,
             created_at: new Date(postData.createdAt),
-            profession: postData.author?.expertize,
+            profession: postData.author.expertise,
             reading_time: postData.readingTime,
             isBookmarked: postData.isBookmarked,
             blogTitle: postData.title,
+            bio: postData.author.biography,
           }}
         />
         <div className="bg-gray-300 rounded-lg min-w-full p-5 drop-shadow-2xl flex flex-wrap gap-5 items-center justify-between ">

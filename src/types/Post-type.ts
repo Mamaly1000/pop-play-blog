@@ -22,6 +22,7 @@ export type postType = {
   comments: unknown[];
   hashId: string;
   author: {
+    expertise: string;
     biography: string;
     _id: string;
     name: string;

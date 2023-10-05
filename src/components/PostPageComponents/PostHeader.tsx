@@ -13,11 +13,12 @@ export type headertype = {
   reading_time: string;
   isBookmarked: boolean;
   blogTitle: string;
+  bio: string;
 };
 const PostHeader = ({ header }: { header: headertype }) => {
   return (
     <div className="w-full flex flex-col sm:flex-row items-start justify-center sm:justify-between gap-5">
-      <div className="bg-gray-300 drop-shadow-2xl p-5 rounded-lg w-full sm:w-fit flex flex-col sm:flex-row gap-3 items-center sm:items-start justify-center sm:justify-start ">
+      <div className="bg-gray-300 drop-shadow-2xl p-5 rounded-lg w-full sm:w-fit flex flex-col sm:flex-row gap-3 items-center sm:items-start justify-center sm:justify-start text-center sm:text-start sm:max-w-[70%]">
         <div className="aspect-video relative w-[100px] object-contain">
           <Image
             alt={header.author + " profile pic"}
@@ -32,7 +33,7 @@ const PostHeader = ({ header }: { header: headertype }) => {
             sizes="30px"
           />
         </div>
-        <div className="w-fit flex items-center justify-center gap-1 flex-col">
+        <div className="w-fit   flex items-center justify-center gap-1 flex-col">
           <div className="w-full flex-wrap justify-center items-center min-w-[100px] flex  sm:justify-start gap-2">
             <span className="font-bold text-section-header-min capitalize text-gray-700 ">
               {header.author}
@@ -41,8 +42,8 @@ const PostHeader = ({ header }: { header: headertype }) => {
               {header.profession}
             </span>
           </div>
-          <div className="w-full flex-wrap justify-center items-center min-w-[100px] flex sm:items-start text-gray-600 font-semibold sm:justify-start gap-2">
-            {header.profession}
+          <div className="w-full flex-wrap justify-center items-center min-w-[100px] flex sm:items-start text-gray-600 font-semibold sm:justify-start gap-2 border-b-[1px] border-gray-600 pb-2 mb-2">
+            {header.bio}
           </div>
           <div className="w-full flex-wrap justify-center items-center [&>span]:font-semibold text-gray-600  min-w-[100px] flex sm:items-start  sm:justify-start gap-2">
             <span>
@@ -53,7 +54,7 @@ const PostHeader = ({ header }: { header: headertype }) => {
           </div>
         </div>
       </div>
-      <div className="w-fit p-5 rounded-lg bg-gray-300 drop-shadow-2xl flex flex-wrap items-start justify-start gap-5">
+      <div className="w-full sm:w-fit p-5 rounded-lg bg-gray-300 drop-shadow-2xl flex flex-wrap items-start justify-start gap-5">
         <button className="text-paragraph-min text-gray-100 capitalize active:scale-90 hover:scale-110 font-bold flex items-center gap-2 bg-gray-800 p-3 rounded-lg">
           {header.isBookmarked ? "Bookmarked" : "bookmark"}
           <BookmarkIcon
