@@ -23,7 +23,8 @@
       "@/common/*": ["src/common/*"],
       "@/utils/*": ["src/utils/*"],
       "@/types/*": ["src/types/*"],
-      "@/services/*": ["src/services/*"]
+      "@/services/*": ["src/services/*"],
+      "@/app/*": ["src/app/*"]
     }
   },
   "include": [

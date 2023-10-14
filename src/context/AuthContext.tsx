@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { useReducerAsync } from "use-reducer-async";
 import Router from "next/router";
 import http from "@/services/httpService";
-interface Iuser {
+export interface Iuser {
   user: {
     name: string;
     profilePicURL: string;
