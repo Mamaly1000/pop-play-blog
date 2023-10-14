@@ -1,17 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useAuth, useAuthActions } from "src/context/AuthContext";
 import { SlLogout } from "react-icons/sl";
 import { AnimatePresence, motion } from "framer-motion";
 import { GoHome } from "react-icons/go";
 import { MdLibraryBooks } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAuth } from "@/app/Auth/AuthReducer";
+import { FetchUserAuthentication } from "@/app/Auth/AuthActions";
 const Header = () => {
-  const userAuth = useAuth();
-  const dispatch = useAuthActions();
+  const dispatch = useDispatch();
+  const userData = useSelector(selectAuth);
   return (
     <div className="header-container">
       <div className="min-h-full max-w-[50%] flex items-center justify-end gap-3 ">
-        {!userAuth?.user.istrusted && (
+        {!userData.istrusted && (
           <>
             <Link href="/login" legacyBehavior>
               <a>login</a>
@@ -21,7 +23,7 @@ const Header = () => {
             </Link>
           </>
         )}
-        {userAuth?.user.istrusted && (
+        {userData.istrusted&&userData.user?.profilePicURL && (
           <Link href="/profile" legacyBehavior>
             <motion.a
               initial={{ scale: 0, cursor: "pointer" }}
@@ -32,29 +34,35 @@ const Header = () => {
               className="profile-btn "
             >
               <Image
-                src={userAuth!.user!.user!.profilePicURL}
-                loader={() => userAuth!.user!.user!.profilePicURL}
+                src={userData?.user!.profilePicURL || ""}
+                loader={() => userData?.user!.profilePicURL || ""}
                 alt="profile pic"
                 width={20}
                 height={20}
                 className="rounded-full   ring-1 ring-gray-300 object-contain"
               />
               <span className="hidden sm:block">
-                {userAuth?.user.istrusted &&
-                  userAuth!.user!.user!.name.slice(0, 10)+" ..."}
+                {userData.istrusted &&
+                  userData.user!.name.slice(0, 10) + " ..."}
               </span>
             </motion.a>
           </Link>
         )}
         <AnimatePresence>
-          {userAuth?.user.istrusted && (
+          {userData.istrusted && (
             <motion.button
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               exit={{ scale: 0 }}
               transition={{ duration: 0.1 }}
               onClick={() => {
-                dispatch?.dispatchUser({ type: "LOG_OUT" });
+                dispatch(
+                  FetchUserAuthentication(
+                    "logout",
+                    "GET",
+                    "/user/logout"
+                  ) as any
+                );
               }}
             >
               <SlLogout className="w-[20px] h-[20px]  text-red-400" />

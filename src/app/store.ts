@@ -2,7 +2,6 @@ import {
   createStore,
   combineReducers,
   applyMiddleware,
-  AnyAction,
 } from "redux";
 import logger from "redux-logger";
 import { Context, createWrapper, HYDRATE } from "next-redux-wrapper";
@@ -18,7 +17,7 @@ const bindMiddleWares = (middleWares: any[]) => {
     return applyMiddleware(...middleWares);
   }
 };
-const masterReducer = (state: any, action: AnyAction) => {
+const masterReducer = (state: any, action: any) => {
   if (action.type === HYDRATE) {
     const nextState = {
       ...state,

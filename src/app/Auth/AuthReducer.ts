@@ -60,3 +60,6 @@ const AuthReducer = (
   }
 };
 export default AuthReducer;
+export const selectAuth = (state: any) => {
+  return state.auth as Iuser;
+};

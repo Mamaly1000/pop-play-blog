@@ -3,8 +3,10 @@ import React, { useEffect } from "react";
 import * as Yup from "yup";
 import Input_components from "./Input-Component";
 import Link from "next/link";
-import { useAuth, useAuthActions } from "src/context/AuthContext";
 import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAuth } from "@/app/Auth/AuthReducer";
+import { FetchUserAuthentication } from "@/app/Auth/AuthActions";
 
 const initialValues = {
   name: "",
@@ -19,14 +21,13 @@ const initialValues = {
 
 const Signup_Form = () => {
   const router = useRouter();
-  const auth = useAuth();
-  const dispatch = useAuthActions();
+  const userData = useSelector(selectAuth);
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues,
     onSubmit: (val) => {
-      dispatch!.dispatchUser({
-        type: "SIGN_UP",
-        payload: {
+      dispatch(
+        FetchUserAuthentication("signUp", "POST", "/user/signup", {
           name: val.name,
           email: val.email,
           phoneNumber: val.phone,
@@ -34,8 +35,8 @@ const Signup_Form = () => {
           profilePicURL: val.profilePic,
           expertise: val.expertise,
           biography: val.biography,
-        },
-      });
+        }) as any
+      );
     },
     validationSchema: Yup.object({
       name: Yup.string()
@@ -62,10 +63,10 @@ const Signup_Form = () => {
     }),
   });
   useEffect(() => {
-    if (auth?.user.istrusted) {
+    if (userData.istrusted) {
       router.push("/profile");
     }
-  }, [auth?.user]);
+  }, [userData]);
   return (
     <form onSubmit={formik.handleSubmit}>
       <Input_components formik={formik} label="name" name="name" type="text" />

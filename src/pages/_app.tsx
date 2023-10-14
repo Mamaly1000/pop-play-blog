@@ -3,10 +3,16 @@ import "../../styles/tailwind.scss";
 import "react-toastify/dist/ReactToastify.css";
 import { AnimatePresence } from "framer-motion";
 import Wrapper from "@/app/store";
-import { Provider } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { FetchUserAuthentication } from "@/app/Auth/AuthActions";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { props, store } = Wrapper.useWrappedStore(pageProps);
+
+  useEffect(() => {
+    store.dispatch(FetchUserAuthentication("load", "GET", "/user/load"));
+  }, []);
   return (
     <Provider store={store}>
       <AnimatePresence

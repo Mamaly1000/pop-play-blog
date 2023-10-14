@@ -142,8 +142,8 @@ const asyncReducer: any = {
       http
         .post("/user/signup", action.payload)
         .then((res) => {
-          toast.success("you signed up successfuly !");
           dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
+          toast.success("you signed up successfuly !");
           Router.push("/profile");
         })
         .catch((err: AxiosError<{ message: string }>) => {

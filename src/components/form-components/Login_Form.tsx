@@ -2,9 +2,11 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Input_components from "./Input-Component";
 import Link from "next/link";
-import { useAuth, useAuthActions } from "src/context/AuthContext";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAuth } from "@/app/Auth/AuthReducer";
+import { FetchUserAuthentication } from "@/app/Auth/AuthActions";
 const initialValues = {
   email: "",
   password: "",
@@ -12,13 +14,17 @@ const initialValues = {
 
 const Login_Form = () => {
   const router = useRouter();
-  const auth = useAuth();
-  const dispatch = useAuthActions();
-
+  const userData = useSelector(selectAuth);
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: initialValues,
     onSubmit: (val) => {
-      dispatch!.dispatchUser({ type: "LOGIN", payload: val }) as any;
+      dispatch(
+        FetchUserAuthentication("login", "POST", "/user/signin", {
+          email: val.email,
+          password: val.password,
+        }) as any
+      );
     },
     validationSchema: Yup.object({
       email: Yup.string()
@@ -30,10 +36,10 @@ const Login_Form = () => {
     }),
   });
   useEffect(() => {
-    if (auth?.user.istrusted) {
+    if (userData.istrusted) {
       router.push("/profile");
     }
-  }, [auth?.user]);
+  }, [userData]);
   return (
     <form onSubmit={formik.handleSubmit}>
       <Input_components
