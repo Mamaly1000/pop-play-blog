@@ -1,3 +1,25 @@
+import { useThemeContext } from "@/context/ThemeContext";
+import styled from "@emotion/styled";
+import { TextField } from "@mui/material";
+
+const Div = styled.div`
+  .MuiFormLabel-root {
+    color: ${(props: any) => props.theme.header} !important;
+    text-transform: capitalize;
+  } 
+  input,
+  p {
+    color: ${(props: any) => props.theme.header} !important;
+  }
+  p {
+    padding: 5px;
+    background: #fc2947 !important;
+  }
+  .css-2y464i-MuiInputBase-root-MuiFilledInput-root::after {
+    border-bottom: 2px solid ${(props: any) => props.theme.btnColor} !important;
+  }
+`;
+
 const Input_components = ({
   type,
   label,
@@ -9,29 +31,28 @@ const Input_components = ({
   formik: any;
   name: string;
 }) => {
+  const theme = useThemeContext();
   return (
-    <div className="min-w-full flex flex-wrap justify-between my-2 items-center gap-2">
-      <label
-        className="max-w-[48%] capitalize font-semibold text-gray-200 text-start"
-        htmlFor={name}
-      >
-        {label}
-      </label>
-      {formik.errors[name] && formik.touched[name] && (
-        <span className=" min-w-full md:min-w-fit h-fit max-w-[48%] rounded-lg bg-red-500 text-white capitalize animate-pulse drop-shadow-2xl px-3 py-2 text-[.7rem]">
-          {formik.errors[name]}
-        </span>
-      )}
-      <input
+    <Div
+      theme={theme || undefined}
+      className="min-w-full flex flex-wrap justify-between my-2 items-center gap-2"
+    >
+      <TextField
+        name={name}
+        type={type}
         {...formik.getFieldProps(name)}
         id={name}
-        type={type}
-        name={name}
-        className=" outline-none   p-2   min-w-full min-h-[50px] rounded-lg drop-shadow-2xl text-white capitalize font-semibold backdrop-blur-md bg-gray-500  border-[1px] border-gray-300 autofill:bg-gray-500"
+        fullWidth
+        label={label}
+        variant="filled"
         value={formik.values[name]}
         autoComplete={type === "password" ? "current-password" : ""}
+        error={formik.errors[name] && formik.touched[name] ? true : false}
+        helperText={
+          formik.errors[name] && formik.touched[name] && formik.errors[name]
+        }
       />
-    </div>
+    </Div>
   );
 };
 

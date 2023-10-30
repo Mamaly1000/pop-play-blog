@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAuth } from "@/app/Auth/AuthReducer";
 import { FetchUserAuthentication } from "@/app/Auth/AuthActions";
+import { useThemeContext } from "@/context/ThemeContext";
 const initialValues = {
   email: "",
   password: "",
@@ -14,6 +15,7 @@ const initialValues = {
 
 const Login_Form = () => {
   const router = useRouter();
+  const theme = useThemeContext();
   const userData = useSelector(selectAuth);
   const dispatch = useDispatch();
   const formik = useFormik({
@@ -41,7 +43,14 @@ const Login_Form = () => {
     }
   }, [userData]);
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <form
+      style={{
+        background: theme?.cardBg,
+        color: theme?.header,
+        border: `1px solid ${theme?.btnColor}`,
+      }}
+      onSubmit={formik.handleSubmit}
+    >
       <Input_components
         formik={formik}
         label="email"
@@ -61,10 +70,20 @@ const Login_Form = () => {
       >
         Login
       </button>
-      <p className="p-1 mt-3 min-w-full text-[.9rem]">
+      <p
+        style={{
+          color: theme?.plainText,
+        }}
+        className="p-1 mt-3 min-w-full text-[.9rem] capitalize"
+      >
         you dont have an account?{" "}
         <Link href="/signup" legacyBehavior>
-          <a className="text-yellow-200 font-semibold capitalize">Sign up</a>
+          <a
+            style={{ color: theme?.btnColor }}
+            className="  font-semibold capitalize"
+          >
+            Sign up
+          </a>
         </Link>
       </p>
     </form>

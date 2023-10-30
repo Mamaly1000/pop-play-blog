@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAuth } from "@/app/Auth/AuthReducer";
 import { FetchUserAuthentication } from "@/app/Auth/AuthActions";
+import { useThemeContext } from "@/context/ThemeContext";
 
 const initialValues = {
   name: "",
@@ -23,6 +24,7 @@ const Signup_Form = () => {
   const router = useRouter();
   const userData = useSelector(selectAuth);
   const dispatch = useDispatch();
+  const theme = useThemeContext();
   const formik = useFormik({
     initialValues,
     onSubmit: (val) => {
@@ -68,7 +70,14 @@ const Signup_Form = () => {
     }
   }, [userData]);
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <form
+      style={{
+        background: theme?.cardBg,
+        color: theme?.header,
+        border: `1px solid ${theme?.btnColor}`,
+      }}
+      onSubmit={formik.handleSubmit}
+    >
       <Input_components formik={formik} label="name" name="name" type="text" />
       <Input_components formik={formik} label="phone" name="phone" type="tel" />
       <Input_components
@@ -108,8 +117,11 @@ const Signup_Form = () => {
         type="text"
       />
       <div
-        style={{ backgroundImage: `url(${formik.values.profilePic})` }}
-        className="max-w-[200px] bg-gray-300 mx-auto bg-center bg-contain ring-1 ring-gray-500 drop-shadow-2xl min-w-[200px] object-contain rounded-full min-h-[200px] max-h-[200px] "
+        style={{
+          backgroundImage: `url(${formik.values.profilePic})`, 
+          border: `1px solid ${theme?.btnColor}`,
+        }}
+        className="max-w-[200px]   mx-auto bg-center bg-contain   drop-shadow-2xl min-w-[200px] object-contain rounded-full min-h-[200px] max-h-[200px] "
       ></div>
       <button
         className="mt-3 mx-auto w-full h-fit px-3 py-2 rounded-lg text-[1rem] bg-green-700 text-white capitalize font-semibold"
@@ -117,10 +129,22 @@ const Signup_Form = () => {
       >
         signup
       </button>
-      <p className="p-1 mt-3 min-w-full text-[.9rem]">
+      <p
+        style={{
+          color: theme?.plainText,
+        }}
+        className="p-1 mt-3 min-w-full text-[.9rem] capitalize"
+      >
         Already have an account?{" "}
         <Link href="/login" legacyBehavior>
-          <a className="text-yellow-200 font-semibold capitalize">Sign in</a>
+          <a
+            style={{
+              color: theme?.btnColor,
+            }}
+            className="  font-semibold capitalize"
+          >
+            Sign in
+          </a>
         </Link>
       </p>
     </form>

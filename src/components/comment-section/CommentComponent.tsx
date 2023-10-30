@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { HiOutlineReply } from "react-icons/hi";
 import CommentForm from "./CommentForm";
 import { LuReply } from "react-icons/lu";
+import { useThemeContext } from "@/context/ThemeContext";
 const CommentComponent = ({
   comment,
   index,
@@ -21,13 +22,19 @@ const CommentComponent = ({
     emailId?: string;
     message?: string;
   }>({ emailId: "", message: "", name: "" });
+  const theme = useThemeContext();
   return (
     <motion.div
-      initial={{ opacity: 0, x: -100 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -100 }}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
       transition={{ duration: 1, delay: index / 10 + 0.1 }}
-      className="bg-gray-800 p-4 rounded-lg drop-shadow-2xl w-full h-fit overflow-hidden"
+      viewport={{ once: true }}
+      style={{
+        background: theme?.cardBg,
+        color: theme?.header,
+        border: `1px solid ${theme?.btnColor}`,
+      }}
+      className=" p-4 rounded-lg drop-shadow-2xl w-full h-fit overflow-hidden"
     >
       <div className="w-fit flex items-start justify-start gap-3 flex-wrap">
         {comment.responseTo && (

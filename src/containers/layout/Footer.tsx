@@ -6,8 +6,7 @@ import { FaGithub } from "react-icons/fa";
 const Footer = () => {
   const theme = useThemeContext();
   return (
-    <motion.div
-      animate={{ background: theme?.mainBg }}
+    <motion.div 
       style={{ color: theme?.header }}
       className="footer-container capitalize font-semibold flex items-center justify-center"
     >
