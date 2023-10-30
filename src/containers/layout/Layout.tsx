@@ -1,13 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "@/layout/Header";
 import Footer from "@/layout/Footer";
 import { ToastContainer } from "react-toastify";
+import { useThemeContext } from "@/context/ThemeContext";
+import { motion } from "framer-motion";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
+  const theme = useThemeContext();
+  useEffect(() => {
+    if (theme?.setLocalTheme) {
+      theme?.setLocalTheme({
+        cardBg: theme.cardBg || "",
+        header: theme.header || "",
+        mainBg: theme.mainBg || "",
+        plainText: theme.plainText || "",
+        btnColor: theme.btnColor || "",
+      });
+    }
+  }, []);
   return (
-    <div className="layout-container  ">
+    <motion.div
+      animate={{ background: theme?.mainBg, color: theme?.header }}
+      initial={{ background: theme?.mainBg, color: theme?.header }}
+      className="layout-container"
+    >
       <Header />
-      <div className="children-container">{children}</div>
+      <motion.div className="children-container">{children}</motion.div>
       <Footer />
       <ToastContainer
         position="top-right"
@@ -21,7 +39,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         pauseOnHover
         theme="dark"
       />
-    </div>
+    </motion.div>
   );
 };
 

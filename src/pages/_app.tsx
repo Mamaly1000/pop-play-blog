@@ -6,6 +6,7 @@ import Wrapper from "@/app/store";
 import { Provider, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { FetchUserAuthentication } from "@/app/Auth/AuthActions";
+import ThemeContext from "@/context/ThemeContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const { props, store } = Wrapper.useWrappedStore(pageProps);
@@ -15,13 +16,15 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
   return (
     <Provider store={store}>
-      <AnimatePresence
-        onExitComplete={() => window.scrollTo(0, 0)}
-        mode="wait"
-        initial={false}
-      >
-        <Component {...props} />
-      </AnimatePresence>
+      <ThemeContext>
+        <AnimatePresence
+          onExitComplete={() => window.scrollTo(0, 0)}
+          mode="wait"
+          initial={false}
+        >
+          <Component {...props} />
+        </AnimatePresence>
+      </ThemeContext>
     </Provider>
   );
 }

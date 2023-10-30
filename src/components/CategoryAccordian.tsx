@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useThemeContext } from "@/context/ThemeContext";
+import CustomLink from "./inputs/CustomLink";
 
 const CategoryAccordian = ({
   categoriesData,
@@ -12,9 +14,16 @@ const CategoryAccordian = ({
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const router = useRouter();
+  const theme = useThemeContext();
   return (
     <>
-      <div className="hidden sm:flex col-span-12 md:col-span-3 md:row-span-3 h-fit overflow-hidden w-full   flex-col items-start justify-start gap-2 p-2 rounded-lg bg-gray-600 capitalize font-semibold">
+      <div
+        style={{
+          background: theme?.cardBg,
+          border: `1px solid ${theme?.btnColor}`,
+        }}
+        className="hidden sm:flex col-span-12 md:col-span-3 md:row-span-3 h-fit overflow-hidden w-full   flex-col items-start justify-start gap-2 p-2 rounded-lg bg-gray-600 capitalize font-semibold"
+      >
         <div
           onClick={() => setOpen((pre) => !pre)}
           className={`w-full  bg-gray-700 p-1 ${
@@ -31,89 +40,94 @@ const CategoryAccordian = ({
         {!open && (
           <ul className="flex items-start justify-start gap-2 p-1 w-full flex-col">
             <li
-              className={`w-full border-[1px] text-gray-300 rounded-lg p-2 hover:border-x-gray-300 drop-shadow-2xl hover:scale-[1.05] hover:border-t-gray-300 ${
-                router.query.category_slug
-                  ? "border-gray-500 border-x-transparent border-t-transparent"
-                  : "bg-gray-800 "
-              }`}
+              className={`w-full    rounded-lg   drop-shadow-2xl hover:scale-[1.05] `}
             >
-              <Link href={`/blogs`} legacyBehavior>
-                <a className="w-full whitespace-nowrap overflow-hidden flex items-center justify-start gap-1 ">
-                  all categories
-                </a>
-              </Link>
+              <CustomLink
+                text="all categories"
+                href="/blogs"
+                linkClassName="w-full rounded-lg cursor-pointer p-2 whitespace-nowrap overflow-hidden flex items-center justify-start gap-1 "
+                textClassName=""
+                animate={{
+                  border: !!router.query.category_slug
+                    ? `1px solid ${theme?.btnColor}`
+                    : `1px solid #ffffff`,
+                  background: !!router.query.category_slug
+                    ? theme?.mainBg
+                    : theme?.cardBg,
+                }}
+              />
             </li>
             {categoriesData.map((category) => {
               return (
                 <motion.li
-                  className={`w-full border-[1px] border-x-transparent border-t-transparent  rounded-lg hover:border-x-gray-300 drop-shadow-2xl hover:scale-[1.05] hover:border-t-gray-300 ${
-                    router.query.category_slug === category.englishTitle
-                      ? "  text-white border-white "
-                      : "border-gray-300"
-                  }`}
+                  className={`w-full    rounded-lg   drop-shadow-2xl hover:scale-[1.05] `}
                   key={category._id}
-                  animate={{
-                    border:
-                      router.query.category_slug === category.englishTitle
-                        ? `1px solid #ffffff`
-                        : "",
-                    background:
-                      router.query.category_slug === category.englishTitle
-                        ? category.color
-                        : "",
-                  }}
                 >
-                  <Link
+                  <CustomLink
+                    text={category.englishTitle}
                     href={`/blogs/${category.englishTitle}`}
-                    key={category._id}
-                    legacyBehavior
-                  >
-                    <a className="w-full p-2 whitespace-nowrap overflow-hidden flex items-center justify-start gap-1 ">
-                      {category.englishTitle}
-                    </a>
-                  </Link>
+                    linkClassName="w-full rounded-lg cursor-pointer p-2 whitespace-nowrap overflow-hidden flex items-center justify-start gap-1 "
+                    textClassName=""
+                    animate={{
+                      border:
+                        router.query.category_slug === category.englishTitle
+                          ? `1px solid #ffffff`
+                          : `1px solid ${theme?.btnColor}`,
+                      background:
+                        router.query.category_slug === category.englishTitle
+                          ? category.color
+                          : theme?.mainBg,
+                    }}
+                  />
                 </motion.li>
               );
             })}
           </ul>
         )}
       </div>
-      <div className="flex sm:hidden min-w-full p-2 rounded-lg bg-gray-600  max-w-fit col-span-12 row-span-1 gap-2 my-2 mx-1 overflow-auto capitalize text-gray-400">
-        <div className="cursor-default min-w-fit px-3 py-2 whitespace-nowrap overflow-hidden flex items-center justify-center gap-1 border border-white text-white bg-gray-700 hover:scale-110 rounded-s-lg p-1">
+      <div
+        style={{
+          background: theme?.cardBg,
+          border: `1px solid ${theme?.btnColor}`,
+        }}
+        className="flex sm:hidden min-w-full p-2 rounded-lg bg-gray-600  max-w-fit col-span-12 row-span-1 gap-2 my-2 mx-1 overflow-auto capitalize text-gray-400"
+      >
+        <div className="cursor-default min-w-fit px-3 py-2 whitespace-nowrap overflow-hidden flex items-center justify-center gap-1     bg-gray-700 hover:scale-110 rounded-s-lg p-1">
           categories
         </div>
-        <Link href={`/blogs`} legacyBehavior>
-          <a
-            className={`min-w-fit px-3 py-2 whitespace-nowrap overflow-hidden flex items-center justify-center gap-1 border border-white text-white ${
-              !router.query.category_slug ? "bg-gray-800" : "bg-transparent"
-            } hover:scale-110 rounded-lg p-1`}
-          >
-            all categories
-          </a>
-        </Link>
+        <CustomLink
+          text="all categories"
+          href="/blogs"
+          linkClassName={`min-w-fit px-3 py-2 whitespace-nowrap overflow-hidden flex items-center justify-center gap-1   hover:scale-110 rounded-lg p-1`}
+          textClassName=""
+          animate={{
+            border: !router.query.category_slug
+              ? `1px solid #ffffff`
+              : `1px solid ${theme?.btnColor}`,
+            background: !router.query.category_slug
+              ? theme?.cardBg
+              : theme?.mainBg,
+            color: theme?.header,
+          }}
+        />
         {categoriesData.map((category) => {
           return (
-            <Link
+            <CustomLink
               href={`/blogs/${category.englishTitle}`}
-              key={category._id}
-              legacyBehavior
-            >
-              <motion.a
-                animate={{
-                  border:
-                    router.query.category_slug === category.englishTitle
-                      ? `1px solid #ffffff`
-                      : "",
-                  background:
-                    router.query.category_slug === category.englishTitle
-                      ? category.color
-                      : "",
-                }}
-                className="cursor-pointer min-w-fit px-3 py-2 whitespace-nowrap overflow-hidden flex items-center justify-center gap-1 border border-white text-white bg-gray-500 hover:scale-110 rounded-lg p-1"
-              >
-                {category.englishTitle}
-              </motion.a>
-            </Link>
+              animate={{
+                border:
+                  router.query.category_slug === category.englishTitle
+                    ? `1px solid #ffffff`
+                    : `1px solid ${theme?.btnColor}`,
+                background:
+                  router.query.category_slug === category.englishTitle
+                    ? category.color
+                    : theme?.mainBg,
+              }}
+              linkClassName="cursor-pointer min-w-fit px-3 py-2 whitespace-nowrap overflow-hidden flex items-center justify-center gap-1 border border-white text-white bg-gray-500 hover:scale-110 rounded-lg p-1"
+              text={category.englishTitle}
+              textClassName=""
+            />
           );
         })}
       </div>

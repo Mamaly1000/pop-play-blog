@@ -7,7 +7,12 @@ import { MdLibraryBooks } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAuth } from "@/app/Auth/AuthReducer";
 import { FetchUserAuthentication } from "@/app/Auth/AuthActions";
+import { useThemeContext } from "@/context/ThemeContext";
+import { themes } from "src/data/themes";
+import CustomLink from "@/components/inputs/CustomLink";
+import Button from "@/components/inputs/Button";
 const Header = () => {
+  const theme = useThemeContext();
   const dispatch = useDispatch();
   const userData = useSelector(selectAuth);
   return (
@@ -15,47 +20,43 @@ const Header = () => {
       <div className="min-h-full max-w-[50%] flex items-center justify-end gap-3 ">
         {!userData.istrusted && (
           <>
-            <Link href="/login" legacyBehavior>
-              <a>login</a>
-            </Link>
-            <Link href="/signup" legacyBehavior>
-              <a>sign up</a>
-            </Link>
+            <CustomLink
+              href="/login"
+              linkClassName=""
+              textClassName=""
+              text="login"
+            />{" "}
+            <CustomLink
+              href="/signup"
+              linkClassName=""
+              textClassName=""
+              text="sign up"
+            />
           </>
         )}
-        {userData.istrusted&&userData.user?.profilePicURL && (
-          <Link href="/profile" legacyBehavior>
-            <motion.a
-              initial={{ scale: 0, cursor: "pointer" }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0 }}
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.1 }}
-              className="profile-btn "
-            >
-              <Image
-                src={userData?.user!.profilePicURL || ""}
-                loader={() => userData?.user!.profilePicURL || ""}
-                alt="profile pic"
-                width={20}
-                height={20}
-                className="rounded-full   ring-1 ring-gray-300 object-contain"
-              />
-              <span className="hidden sm:block">
-                {userData.istrusted &&
-                  userData.user!.name.slice(0, 10) + " ..."}
-              </span>
-            </motion.a>
-          </Link>
+        {userData.istrusted && userData.user?.profilePicURL && (
+          <CustomLink
+            href="/profile"
+            linkClassName="profile-btn "
+            textClassName="hidden sm:block"
+            text={
+              userData.istrusted && userData.user!.name.slice(0, 10) + " ..."
+            }
+          >
+            <Image
+              src={userData?.user!.profilePicURL || ""}
+              loader={() => userData?.user!.profilePicURL || ""}
+              alt="profile pic"
+              width={20}
+              height={20}
+              className="rounded-full   ring-1 ring-gray-300 object-contain"
+            />
+          </CustomLink>
         )}
         <AnimatePresence>
           {userData.istrusted && (
-            <motion.button
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0 }}
-              transition={{ duration: 0.1 }}
-              onClick={() => {
+            <Button
+              onclick={() => {
                 dispatch(
                   FetchUserAuthentication(
                     "logout",
@@ -64,25 +65,48 @@ const Header = () => {
                   ) as any
                 );
               }}
+              className=""
+              disabled={false}
+              text=""
             >
               <SlLogout className="w-[20px] h-[20px]  text-red-400" />
-            </motion.button>
+            </Button>
           )}
         </AnimatePresence>
+      </div>{" "}
+      <div className="flex items-center justify-end gap-2">
+        {themes.map((t) => {
+          return (
+            <motion.button
+              animate={{
+                border: `1px solid ${theme?.btnColor}`,
+                background: t.mainBg,
+                borderRadius: "50%",
+              }}
+              key={t.btnColor}
+              className="min-w-[30px] min-h-[30px] max-w-[30px] max-h-[30px] rounded-full drop-shadow-2xl outline-none "
+              onClick={() => theme?.setLocalTheme(t)}
+            ></motion.button>
+          );
+        })}
       </div>
       <div className="min-h-full max-w-[40%] flex items-center justify-start gap-3 ">
-        <Link href="/blogs" legacyBehavior>
-          <a>
-            <span className="absolute hidden sm:visible">blogs</span>
-            <MdLibraryBooks className="stroke-white w-[20px] h-[20px]" />
-          </a>
-        </Link>
-        <Link href="/" legacyBehavior>
-          <a className="flex items-center justify-center relative">
-            <span className="absolute hidden sm:visible">home</span>
-            <GoHome className="stroke-white w-[20px] h-[20px]" />
-          </a>
-        </Link>
+        <CustomLink
+          href="/blogs"
+          linkClassName=""
+          textClassName="absolute hidden sm:visible"
+          text="blogs"
+        >
+          <MdLibraryBooks className="stroke-white w-[20px] h-[20px]" />
+        </CustomLink>
+        <CustomLink
+          href="/"
+          linkClassName="flex items-center justify-center relative"
+          textClassName="absolute hidden sm:visible"
+          text="home"
+        >
+          <GoHome className="stroke-white w-[20px] h-[20px]" />
+        </CustomLink>
       </div>
     </div>
   );

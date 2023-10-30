@@ -3,8 +3,9 @@ import CommentComponent from "./CommentComponent";
 import { useState } from "react";
 import CommentForm from "./CommentForm";
 import ReplyComment from "./ReplyComment";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useAuth } from "src/context/AuthContext";
+import { useThemeContext } from "@/context/ThemeContext";
 
 const CommentSection = ({
   postID,
@@ -13,16 +14,26 @@ const CommentSection = ({
   postID: string;
   comments: commentType[];
 }) => {
+  const theme = useThemeContext();
   const userAuth = useAuth();
   return (
-    <div className="min-w-full  bg-gray-300 rounded-lg p-5 flex flex-col gap-3 items-start justify-start drop-shadow-2xl">
-      <span className="text-section-header-min capitalize text-gray-600 font-semibold">
+    <motion.div
+      animate={{
+        background: theme?.cardBg,
+        border: `1px solid ${theme?.btnColor}`,
+      }}
+      className="min-w-full    rounded-lg p-5 flex flex-col gap-3 items-start justify-start drop-shadow-2xl"
+    >
+      <span
+        style={{ color: theme?.header }}
+        className="text-section-header-min capitalize   font-semibold"
+      >
         comment section
       </span>
       <CommentForm
         responseTo={null}
         postID={postID}
-        title={`what is your idea ${userAuth?.user.user?.name} ?`}
+        title={`what is your idea ?`}
       />
       <div className="min-w-full flex flex-wrap items-start justify-start gap-5">
         {comments
@@ -49,7 +60,7 @@ const CommentSection = ({
             );
           })}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

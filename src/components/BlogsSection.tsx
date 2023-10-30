@@ -1,9 +1,7 @@
 import React from "react";
 import BlogCard from "./BlogCard";
 import { AnimatePresence } from "framer-motion";
-import { postType } from "@/types/Post-type";
-import { Pagination } from "@mui/material";
-import { mainPostType } from "@/types/postMainType";
+import { postType } from "@/types/Post-type"; 
 import { useRouter } from "next/router";
 import Pagination_Component from "./pagination-component/Pagination_Component";
 const BlogsSection = ({

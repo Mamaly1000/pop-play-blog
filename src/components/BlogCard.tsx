@@ -10,11 +10,23 @@ import {
 import { postType } from "@/types/Post-type";
 import Link from "next/link";
 import InterActions from "./interactionButtons/InterActions";
+import { useThemeContext } from "@/context/ThemeContext";
 const BlogCard = ({ blog, index }: { blog: postType; index: number }) => {
+  const theme = useThemeContext();
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      initial={{
+        opacity: 0,
+        background: theme?.cardBg,
+        border: `1px solid ${theme?.btnColor}`,
+        color: theme?.header,
+      }}
+      animate={{
+        opacity: 1,
+        background: theme?.cardBg,
+        border: `1px solid ${theme?.btnColor}`,
+        color: theme?.header,
+      }}
       transition={{ duration: 1, delay: index / 10 + 0.1, type: "tween" }}
       className="w-full  sm:w-[320px] h-fit rounded-lg drop-shadow-2xl bg-gray-600 flex items-start flex-wrap justify-between gap-2 p-2 cursor-pointer hover:-translate-y-2"
     >
@@ -30,7 +42,7 @@ const BlogCard = ({ blog, index }: { blog: postType; index: number }) => {
         </a>
       </Link>
       <Link href={`/posts/${blog.hashId}/${blog.slug}`} legacyBehavior>
-        <a className="font-semibold hover:font-bold text-gray-200 line-clamp-1 text-group-header-min visited:text-red-200 active:text-gray-400 hover:text-white hover:line-clamp-2">
+        <a className="font-semibold hover:font-bold   line-clamp-1 text-group-header-min       hover:line-clamp-2">
           {blog.title}
         </a>
       </Link>
@@ -57,7 +69,7 @@ const BlogCard = ({ blog, index }: { blog: postType; index: number }) => {
           </Link>
         )}
       </div>
-      <div className=" w-full text-gray-300 text-paragraph-min flex flex-wrap sm:flex-nowrap items-center justify-between gap-2  py-1">
+      <div className=" w-full   text-paragraph-min flex flex-wrap sm:flex-nowrap items-center justify-between gap-2  py-1">
         <div className="w-fit whitespace-nowrap flex items-center gap-2">
           <p>{blog.readingTime}min to read</p>
           <ClockIcon className="w-[20px] h-[20px] stroke-gray-300" />

@@ -1,3 +1,4 @@
+import { useThemeContext } from "@/context/ThemeContext";
 import http from "@/services/httpService";
 import { routerPush } from "@/utils/routerPush";
 import { useRouter } from "next/router";
@@ -14,6 +15,7 @@ const CommentForm = ({
   postID: string;
   responseTo: string | null;
 }) => {
+  const theme = useThemeContext();
   const router = useRouter();
   const [myComment, setMyComment] = useState("");
   return (
@@ -34,10 +36,15 @@ const CommentForm = ({
           })
           .catch((err) => toast.error(err.response.data.message));
       }}
-      className="w-full flex flex-wrap items-start justify-start gap-3 rounded-lg bg-gray-800 p-5 [&>textarea]:min-w-full  [&>input]:px-3 [&>input]:py-2 [&>input]:rounded-lg [&>input]:capitalize [&>input:hover]:scale-110 [&>input]:cursor-pointer [&>input]:font-semibold drop-shadow-2xl"
+      style={{
+        background: theme?.cardBg,
+        border: `1px solid ${theme?.btnColor}`,
+        color: theme?.header,
+      }}
+      className="w-full flex flex-wrap items-start justify-start gap-3 rounded-lg   p-5 [&>textarea]:min-w-full  [&>input]:px-3 [&>input]:py-2 [&>input]:rounded-lg [&>input]:capitalize [&>input:hover]:scale-110 [&>input]:cursor-pointer [&>input]:font-semibold drop-shadow-2xl"
     >
       {title.length > 0 && (
-        <span className="capitalize animate-pulse">{title}</span>
+        <span className="capitalize animate-pulse">{!!title ? title : ""}</span>
       )}
       <textarea
         value={myComment}
