@@ -17,7 +17,7 @@ export default function Home({
 }) {
   return (
     <Layout>
-      <div className="p-2 py-[25%] sm:py-[20%] md:py-10 w-full grid grid-cols-12 gap-5">
+      <div className="  w-full grid grid-cols-12 gap-5">
         <CategorySort />
         <CategoryAccordian categoriesData={categoriesData.data} />
         <BlogsSection

@@ -38,6 +38,9 @@ const BlogCard = ({ blog, index }: { blog: postType; index: number }) => {
             fill
             src={blog.coverImage}
             alt="blog image"
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL={blog.coverImage}
           />
         </a>
       </Link>

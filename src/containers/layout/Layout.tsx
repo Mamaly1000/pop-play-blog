@@ -25,7 +25,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       className="layout-container"
     >
       <Header />
-      <motion.div className="children-container">{children}</motion.div>
+      <motion.div className="children-container p-2 py-[25%] sm:py-[20%] md:py-10">{children}</motion.div>
       <Footer />
       <ToastContainer
         position="top-right"

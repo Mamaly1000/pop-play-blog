@@ -46,7 +46,7 @@ const SinglePostpage = ({ postData }: { postData: postType }) => {
   };
   return (
     <Layout>
-      <div className="py-[25%] sm:py-[20%] md:py-10 flex justify-start flex-wrap items-start gap-5 w-full min-h-[500px]">
+      <div className="  flex justify-start flex-wrap items-start gap-5 w-full min-h-[500px]">
         <PostHeader
           header={{
             author: postData.author?.name,
